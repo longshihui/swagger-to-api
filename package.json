@@ -3,8 +3,30 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "packageManager": "pnpm@11.1.2",
   "scripts": {
+    "prepare": "husky",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint:eslint": "eslint .",
+    "lint:eslint:fix": "eslint . --fix",
+    "test": "vitest run",
+    "validate": "pnpm run typecheck && pnpm run lint:eslint && pnpm run test",
+    "validate:commit": "pnpm run typecheck && pnpm run lint:eslint:fix",
+    "commit": "GIT_CONFIG_GLOBAL=${GIT_CONFIG_GLOBAL:-$HOME/.gitconfig} HOME=.cache czg",
     "format:check": "prettier . --check",
     "format": "prettier . --write"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@eslint/js": "^9.28.0",
+    "eslint": "^9.28.0",
+    "czg": "^1.13.1",
+    "globals": "^16.2.0",
+    "husky": "^9.1.7",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.34.0",
+    "vitest": "^3.2.2"
   }
 }

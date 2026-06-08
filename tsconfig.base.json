@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022"],
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "useDefineForClassFields": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@cm/shared": ["packages/shared/src/index.ts"],
+      "@cm/swagger-api-generator": [
+        "packages/swagger-api-generator/src/index.ts"
+      ],
+      "@cm/swagger-api-ui-generator": [
+        "packages/swagger-api-ui-generator/src/index.ts"
+      ],
+      "@cm/swagger-to-api-cli": ["packages/swagger-to-api-cli/src/index.ts"]
+    }
+  }
+}

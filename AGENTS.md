@@ -5,6 +5,8 @@
 - 基础语言：TypeScript
 - 组件化方案：Vue 3、Pinia、Vue Router
 - 构建工具：Vite、Pnpm
+- 测试工具：Vitest
+- 文档工具：Vitepress
 
 ## 项目结构
 

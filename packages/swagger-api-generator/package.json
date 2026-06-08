@@ -1,0 +1,15 @@
+{
+  "name": "@cm/swagger-api-generator",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts"
+    }
+  },
+  "dependencies": {
+    "@cm/shared": "workspace:*"
+  }
+}

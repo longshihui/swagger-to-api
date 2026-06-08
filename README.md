@@ -4,6 +4,33 @@
 
 当前包处于方案设计阶段，暂不包含生成器实现代码。
 
+## 工程脚手架
+
+项目使用 pnpm workspace 管理 monorepo，包目录统一放在 `packages/` 下。
+
+```bash
+pnpm install
+pnpm run typecheck
+pnpm run lint:eslint
+pnpm run test
+pnpm run validate
+pnpm run commit
+```
+
+Git 提交流程使用 Husky 和 Commitlint：
+
+- `pnpm run commit`：使用 CLI 交互生成符合 Conventional Commits 的提交信息。
+- `pre-commit`：运行 `pnpm run validate:commit`，校验 TypeScript 和 ESLint。
+- `commit-msg`：运行 Commitlint，提交信息遵循 Conventional Commits。
+- `pre-push`：运行 `pnpm run test`，执行单元测试。
+
+提交信息示例：
+
+```bash
+git commit -m "feat(swagger-api-generator): init parser module"
+git commit -m "chore(root): update workspace config"
+```
+
 ## 目标
 
 - 支持从本地 Swagger / OpenAPI 文件或远程 URL 读取接口文档。

@@ -1,0 +1,61 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Zhengqbbb/cz-git/refs/tags/v1.13.1/docs/public/schema/cz-git.json",
+  "types": [
+    {
+      "value": "feat",
+      "name": "feat: 新增功能"
+    },
+    {
+      "value": "fix",
+      "name": "fix: 修复缺陷"
+    },
+    {
+      "value": "docs",
+      "name": "docs: 文档变更"
+    },
+    {
+      "value": "style",
+      "name": "style: 代码格式"
+    },
+    {
+      "value": "refactor",
+      "name": "refactor: 代码重构"
+    },
+    {
+      "value": "perf",
+      "name": "perf: 性能优化"
+    },
+    {
+      "value": "test",
+      "name": "test: 测试变更"
+    },
+    {
+      "value": "build",
+      "name": "build: 构建变更"
+    },
+    {
+      "value": "ci",
+      "name": "ci: 持续集成"
+    },
+    {
+      "value": "chore",
+      "name": "chore: 工程杂项"
+    },
+    {
+      "value": "revert",
+      "name": "revert: 回退变更"
+    }
+  ],
+  "scopes": [
+    "root",
+    "shared",
+    "swagger-api-generator",
+    "swagger-api-ui-generator",
+    "swagger-to-api-cli",
+    "deps",
+    "docs"
+  ],
+  "allowCustomScopes": false,
+  "allowEmptyScopes": false,
+  "allowBreakingChanges": ["feat", "fix", "refactor"]
+}
