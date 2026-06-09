@@ -9,7 +9,14 @@
       "import": "./src/index.ts"
     }
   },
+  "bin": {
+    "swagger-to-api": "./bin/swagger-to-api.mjs"
+  },
   "dependencies": {
-    "@cm/shared": "workspace:*"
+    "@cm/shared": "workspace:*",
+    "@cm/swagger-api-generator": "workspace:*",
+    "@cm/swagger-api-ui-generator": "workspace:*",
+    "jiti": "^2.6.1",
+    "js-yaml": "^4.2.0"
   }
 }
