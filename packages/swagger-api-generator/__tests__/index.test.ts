@@ -174,6 +174,33 @@ describe("generateApiCode", () => {
       }),
     ).toThrow("path 参数 id 未出现在 URL 中");
   });
+
+  it("应该在同分组类型名冲突时抛出错误", () => {
+    expect(() =>
+      generateApiCode({
+        endpoints: [
+          createContractDetailEndpoint(),
+          {
+            ...createContractSearchEndpoint(),
+            responses: [
+              {
+                statusCode: "200",
+                schema: {
+                  name: "ContractDetail",
+                  type: "object",
+                  properties: {
+                    contractCode: {
+                      type: "string",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+        ],
+      }),
+    ).toThrow("冲突类型名 ContractDetail");
+  });
 });
 
 describe("selectApiResponse", () => {

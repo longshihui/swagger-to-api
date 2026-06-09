@@ -138,9 +138,11 @@ describe("generateApiDocs", () => {
 
     const pageFile = getFileContent(result, "api/report/get-report.md");
     expect(pageFile).toContain(
-      "| records | `Array<object>` | 否 | 明细列表 |  |  |",
+      "| records | `Array<{ recordId: string }>` | 否 | 明细列表 |  |  |",
     );
-    expect(pageFile).toContain("| records[] | `object` | 否 |  |  |  |");
+    expect(pageFile).toContain(
+      "| records[] | `{ recordId: string }` | 否 |  |  |  |",
+    );
     expect(pageFile).toContain(
       '| records[].recordId | `string` | 是 | 明细 ID | `"R001"` |  |',
     );
@@ -150,6 +152,28 @@ describe("generateApiDocs", () => {
     expect(pageFile).toContain(
       "| keyword | `string \\| number` | 否 | 关键词\\|编号<br>支持模糊搜索 |  |  |",
     );
+  });
+
+  it("应该复用 API 类型字面量规则展示文档字段类型", () => {
+    const result = generateApiDocs({
+      endpoints: [createNestedSchemaEndpoint()],
+    });
+
+    const pageFile = getFileContent(result, "api/report/get-report.md");
+    expect(pageFile).toContain(
+      "| $ | `{ filter?: BaseFilter & ExtraFilter }` | 否 |  |  |  |",
+    );
+  });
+
+  it("应该按 API 生成器响应优先级选择文档响应 schema", () => {
+    const result = generateApiDocs({
+      endpoints: [createResponsePriorityEndpoint()],
+    });
+
+    const pageFile = getFileContent(result, "api/contract/choose-response.md");
+    expect(pageFile).toContain("## 响应字段（200）");
+    expect(pageFile).toContain("| selected | `string` | 否 | 优先响应 |  |  |");
+    expect(pageFile).not.toContain("## 响应字段（201）");
   });
 
   it("应该优先使用响应 examples 生成响应示例", () => {
@@ -466,6 +490,48 @@ const createResponseExampleEndpoint = (): ApiEndpointModel => ({
         success: {
           contractCode: "HT202606090001",
         },
+      },
+    },
+  ],
+});
+
+const createResponsePriorityEndpoint = (): ApiEndpointModel => ({
+  id: "response-priority",
+  operationId: "chooseResponse",
+  functionName: "chooseResponse",
+  summary: "选择响应",
+  method: "get",
+  path: "/contract/response",
+  tags: ["contract"],
+  parameters: [],
+  responses: [
+    {
+      statusCode: "201",
+      schema: {
+        type: "object",
+        properties: {
+          skipped: {
+            type: "string",
+          },
+        },
+      },
+    },
+    {
+      statusCode: "200",
+      schema: {
+        type: "object",
+        properties: {
+          selected: {
+            type: "string",
+            description: "优先响应",
+          },
+        },
+      },
+    },
+    {
+      statusCode: "default",
+      schema: {
+        type: "object",
       },
     },
   ],

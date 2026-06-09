@@ -7,12 +7,10 @@ export const swaggerApiGeneratorMetadata: PackageMetadata =
     description: "API 文件生成器",
   });
 
-export {
-  createTypeLiteralFromSchema,
-  generateApiCode,
-  selectApiResponse,
-} from "./generator";
+export { generateApiCode } from "./generator";
 export { convertOpenApiDocumentToEndpoints } from "./openapi";
+export { selectApiResponse } from "./response";
+export { schemaToType as createTypeLiteralFromSchema } from "./schema";
 export type {
   ApiEndpointModel,
   ApiGeneratedGroup,
