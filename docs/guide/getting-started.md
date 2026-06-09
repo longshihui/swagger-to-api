@@ -8,7 +8,7 @@ pnpm add -D @cm/swagger-to-api-cli
 
 `@cm/swagger-to-api-cli` 是整个工具的入口，安装后会提供 `swagger-to-api` 命令。
 
-如果需要使用 `docs:dev` 或 `docs:build` 生成接口文档站点，还需要在业务项目中安装 VitePress：
+生成接口文档站点时，还需要安装 VitePress：
 
 ```bash
 pnpm add -D vitepress
@@ -24,7 +24,7 @@ openapi.yaml
 openapi.yml
 ```
 
-MVP 阶段暂不支持远程 URL 输入，CLI 会明确报错。
+当前不支持远程 URL。
 
 ## 创建配置文件
 
@@ -48,7 +48,7 @@ export default {
 } satisfies SwaggerToApiConfig;
 ```
 
-CLI 支持 `.json`、`.js`、`.mjs`、`.ts`、`.mts`、`.cts` 配置文件。TypeScript 配置通过 `jiti` 加载。
+CLI 支持 `.json`、`.js`、`.mjs`、`.ts`、`.mts`、`.cts` 配置文件。
 
 ## 生成 API 代码
 
@@ -72,7 +72,7 @@ src/api/generated/
 pnpm swagger-to-api docs:dev -c swagger-to-api.config.ts
 ```
 
-该命令会先把接口文档文件写入 `output.docsDir`，再执行：
+该命令会写入 `output.docsDir`，再执行：
 
 ```bash
 pnpm exec vitepress dev <docsDir>
@@ -84,7 +84,7 @@ pnpm exec vitepress dev <docsDir>
 pnpm swagger-to-api docs:build -c swagger-to-api.config.ts
 ```
 
-该命令会先写入文档站点文件，再执行：
+该命令会写入 `output.docsDir`，再执行：
 
 ```bash
 pnpm exec vitepress build <docsDir>
@@ -96,4 +96,10 @@ pnpm exec vitepress build <docsDir>
 pnpm swagger-to-api validate -c swagger-to-api.config.ts
 ```
 
-`validate` 会读取配置和 OpenAPI 文档，执行模型转换、API 代码生成和文档生成，但不会写入文件，也不会启动 VitePress。
+`validate` 只校验生成流程，不写入文件，不启动 VitePress。
+
+## 下一步
+
+- 查看 [使用示例](./usage-examples.md)
+- 查看 [配置说明](./configuration.md)
+- 查看 [CLI 使用](./cli.md)

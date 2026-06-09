@@ -1,28 +1,24 @@
 # `@cm/swagger-to-api`
 
-`swagger-to-api` 是一个面向 TypeScript 项目的 OpenAPI 自动化工具。它可以读取本地 OpenAPI JSON/YAML 文档，转换为统一接口模型，并生成两类产物：
+`swagger-to-api` 读取本地 OpenAPI JSON/YAML，生成 TypeScript API 代码和 VitePress 接口文档。
 
-- 业务项目可直接引用的 TypeScript 请求函数和类型文件。
-- 基于 VitePress 的接口文档站点和搜索索引。
+## 项目使用
 
-## 快速使用
-
-在业务项目中安装 CLI 包：
+安装：
 
 ```bash
 pnpm add -D @cm/swagger-to-api-cli
 ```
 
-如果需要生成并运行接口文档站点，同时安装 VitePress：
+需要生成接口文档站点时，同时安装：
 
 ```bash
 pnpm add -D vitepress
 ```
 
-创建配置文件：
+创建 `swagger-to-api.config.ts`：
 
 ```ts
-// swagger-to-api.config.ts
 import type { SwaggerToApiConfig } from "@cm/swagger-to-api-cli";
 
 export default {
@@ -41,28 +37,47 @@ export default {
 } satisfies SwaggerToApiConfig;
 ```
 
-执行生成：
+生成 API 代码：
 
 ```bash
 pnpm swagger-to-api generate -c swagger-to-api.config.ts
-pnpm swagger-to-api docs:dev -c swagger-to-api.config.ts
-pnpm swagger-to-api docs:build -c swagger-to-api.config.ts
-pnpm swagger-to-api validate -c swagger-to-api.config.ts
 ```
 
-项目自身文档站点：
+生成的代码可直接在业务中引用：
+
+```ts
+import { getContractDetail } from "@/api/generated";
+
+const detail = await getContractDetail({ id: "10001" });
+```
+
+更多示例见 [使用示例](./docs/guide/usage-examples.md)。
+
+## 项目开发
+
+安装依赖：
+
+```bash
+pnpm install
+```
+
+常用命令：
 
 ```bash
 pnpm run docs:dev
 pnpm run docs:build
-pnpm run docs:preview
+pnpm run typecheck
+pnpm run lint:eslint
+pnpm run test
 ```
 
 ## 文档
 
 - [快速开始](./docs/guide/getting-started.md)
+- [使用示例](./docs/guide/usage-examples.md)
 - [配置说明](./docs/guide/configuration.md)
 - [CLI 使用](./docs/guide/cli.md)
+- [项目开发](./docs/development.md)
 - [API 参考](./docs/api-reference.md)
 - [架构设计](./docs/architecture.md)
 - [API 代码生成器设计](./docs/api-generator-design.md)

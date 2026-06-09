@@ -9,7 +9,8 @@ export default defineConfig({
   cleanUrls: true,
   themeConfig: {
     nav: [
-      { text: "指南", link: "/guide/getting-started" },
+      { text: "使用", link: "/guide/getting-started" },
+      { text: "开发", link: "/development" },
       { text: "API", link: "/api-reference" },
       { text: "设计", link: "/architecture" },
     ],
@@ -18,11 +19,18 @@ export default defineConfig({
     },
     sidebar: [
       {
-        text: "使用指南",
+        text: "项目使用",
         items: [
           { text: "快速开始", link: "/guide/getting-started" },
+          { text: "使用示例", link: "/guide/usage-examples" },
           { text: "配置说明", link: "/guide/configuration" },
           { text: "CLI 使用", link: "/guide/cli" },
+        ],
+      },
+      {
+        text: "项目开发",
+        items: [
+          { text: "开发指南", link: "/development" },
           { text: "部署", link: "/deployment" },
         ],
       },
