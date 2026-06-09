@@ -1,5 +1,5 @@
 {
-  "name": "@cm/swagger-api-ui-generator",
+  "name": "@lsh/swagger-api-ui-generator",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -10,6 +10,6 @@
     }
   },
   "dependencies": {
-    "@cm/shared": "workspace:*"
+    "@lsh/shared": "workspace:*"
   }
 }

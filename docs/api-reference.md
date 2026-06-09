@@ -1,13 +1,13 @@
 # API 参考
 
-## `@cm/swagger-api-generator`
+## `@lsh/swagger-api-generator`
 
 ### `convertOpenApiDocumentToEndpoints(document)`
 
 把已解析的 OpenAPI 文档对象转换为统一接口模型。
 
 ```ts
-import { convertOpenApiDocumentToEndpoints } from "@cm/swagger-api-generator";
+import { convertOpenApiDocumentToEndpoints } from "@lsh/swagger-api-generator";
 
 const endpoints = convertOpenApiDocumentToEndpoints(openApiDocument);
 ```
@@ -26,12 +26,12 @@ const endpoints = convertOpenApiDocumentToEndpoints(openApiDocument);
 根据统一接口模型生成 API 代码文件。
 
 ```ts
-import { generateApiCode } from "@cm/swagger-api-generator";
+import { generateApiCode } from "@lsh/swagger-api-generator";
 
 const result = generateApiCode({
   endpoints,
   request: {
-    importFrom: "@cm/shared-http",
+    importFrom: "@lsh/shared-http",
     clientName: "request",
   },
 });
@@ -69,14 +69,14 @@ index.ts
 
 把 `ApiSchemaModel` 转换为 TypeScript 类型字面量字符串。
 
-## `@cm/swagger-api-ui-generator`
+## `@lsh/swagger-api-ui-generator`
 
 ### `generateApiDocs(options)`
 
 根据统一接口模型生成 VitePress 文档站点文件。
 
 ```ts
-import { generateApiDocs } from "@cm/swagger-api-ui-generator";
+import { generateApiDocs } from "@lsh/swagger-api-ui-generator";
 
 const result = generateApiDocs({
   endpoints,
@@ -102,14 +102,14 @@ api/contract/get-contract-detail.md
 public/api-index.json
 ```
 
-## `@cm/swagger-to-api-cli`
+## `@lsh/swagger-to-api-cli`
 
 ### `runSwaggerToApiCli(argv, runner?)`
 
 执行 CLI 主流程。
 
 ```ts
-import { runSwaggerToApiCli } from "@cm/swagger-to-api-cli";
+import { runSwaggerToApiCli } from "@lsh/swagger-to-api-cli";
 
 await runSwaggerToApiCli(["generate", "-c", "swagger-to-api.config.ts"]);
 ```

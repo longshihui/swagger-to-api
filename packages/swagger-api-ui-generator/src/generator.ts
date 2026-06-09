@@ -3,7 +3,7 @@ import type {
   ApiParameterModel,
   ApiResponseModel,
   ApiSchemaModel,
-} from "@cm/swagger-api-generator";
+} from "@lsh/swagger-api-generator";
 import { toKebabCase } from "./naming";
 import type {
   ApiDocsGeneratedGroup,

@@ -14,14 +14,14 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@cm/shared": ["packages/shared/src/index.ts"],
-      "@cm/swagger-api-generator": [
+      "@lsh/shared": ["packages/shared/src/index.ts"],
+      "@lsh/swagger-api-generator": [
         "packages/swagger-api-generator/src/index.ts"
       ],
-      "@cm/swagger-api-ui-generator": [
+      "@lsh/swagger-api-ui-generator": [
         "packages/swagger-api-ui-generator/src/index.ts"
       ],
-      "@cm/swagger-to-api-cli": ["packages/swagger-to-api-cli/src/index.ts"]
+      "@lsh/swagger-to-api-cli": ["packages/swagger-to-api-cli/src/index.ts"]
     }
   }
 }

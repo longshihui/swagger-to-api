@@ -1,9 +1,9 @@
-import { definePackageMetadata } from "@cm/shared";
-import type { PackageMetadata } from "@cm/shared";
+import { definePackageMetadata } from "@lsh/shared";
+import type { PackageMetadata } from "@lsh/shared";
 
 export const swaggerApiGeneratorMetadata: PackageMetadata =
   definePackageMetadata({
-    name: "@cm/swagger-api-generator",
+    name: "@lsh/swagger-api-generator",
     description: "API 文件生成器",
   });
 

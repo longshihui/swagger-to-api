@@ -56,7 +56,7 @@ OpenAPI 文档路径。当前实现支持本地文件：
 
 ```ts
 request: {
-  importFrom: "@cm/shared-http",
+  importFrom: "@lsh/shared-http",
   clientName: "request",
 }
 ```
@@ -64,7 +64,7 @@ request: {
 生成示例：
 
 ```ts
-import { request } from "@cm/shared-http";
+import { request } from "@lsh/shared-http";
 ```
 
 `unwrapData` 当前保留在配置和类型中，默认模板暂未使用。

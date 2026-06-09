@@ -1,9 +1,9 @@
 # CLI 使用
 
-CLI 包是 `@cm/swagger-to-api-cli`，可执行命令为 `swagger-to-api`。
+CLI 包是 `@lsh/swagger-to-api-cli`，可执行命令为 `swagger-to-api`。
 
 ```bash
-pnpm add -D @cm/swagger-to-api-cli
+pnpm add -D @lsh/swagger-to-api-cli
 ```
 
 如果要执行 `docs:dev` 或 `docs:build`，业务项目还需要安装 `vitepress`，因为 CLI 会在目标项目中执行 `pnpm exec vitepress ...`。

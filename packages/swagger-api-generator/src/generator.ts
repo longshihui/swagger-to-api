@@ -24,7 +24,7 @@ import type {
 import { ApiGeneratorError } from "./types";
 
 const DEFAULT_REQUEST_CONFIG: ApiGeneratorRequestConfig = {
-  importFrom: "@cm/shared-http",
+  importFrom: "@lsh/shared-http",
   clientName: "request",
 };
 
@@ -539,7 +539,7 @@ const hasRequiredParameter = (
 const createGeneratedFileHeader = (): string =>
   [
     "/* eslint-disable */",
-    "/* 该文件由 @cm/swagger-api-generator 自动生成，请勿手动修改。 */",
+    "/* 该文件由 @lsh/swagger-api-generator 自动生成，请勿手动修改。 */",
   ].join("\n");
 
 export const createTypeLiteralFromSchema = schemaToType;

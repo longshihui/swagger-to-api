@@ -1,4 +1,4 @@
-import type { ApiGeneratorRequestConfig } from "@cm/swagger-api-generator";
+import type { ApiGeneratorRequestConfig } from "@lsh/swagger-api-generator";
 
 export interface SwaggerToApiConfig {
   readonly source: string;

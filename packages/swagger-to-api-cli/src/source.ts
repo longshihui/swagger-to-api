@@ -1,7 +1,7 @@
 import { extname, isAbsolute, resolve } from "node:path";
-import { convertOpenApiDocumentToEndpoints } from "@cm/swagger-api-generator";
+import { convertOpenApiDocumentToEndpoints } from "@lsh/swagger-api-generator";
 import { load as loadYaml } from "js-yaml";
-import type { ApiEndpointModel } from "@cm/swagger-api-generator";
+import type { ApiEndpointModel } from "@lsh/swagger-api-generator";
 import type { SwaggerToApiCliRunner } from "./types";
 import { SwaggerToApiCliError } from "./types";
 

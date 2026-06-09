@@ -4,12 +4,12 @@ import {
   generateApiDocs,
   swaggerApiUiGeneratorMetadata,
 } from "../src/index";
-import type { ApiEndpointModel } from "@cm/swagger-api-generator";
+import type { ApiEndpointModel } from "@lsh/swagger-api-generator";
 
 describe("swaggerApiUiGeneratorMetadata", () => {
   it("应该使用正确的包名", () => {
     expect(swaggerApiUiGeneratorMetadata.name).toBe(
-      "@cm/swagger-api-ui-generator",
+      "@lsh/swagger-api-ui-generator",
     );
   });
 });

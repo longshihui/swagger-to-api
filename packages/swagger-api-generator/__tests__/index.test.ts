@@ -11,7 +11,7 @@ import type { ApiEndpointModel } from "../src/index";
 
 describe("swaggerApiGeneratorMetadata", () => {
   it("应该使用正确的包名", () => {
-    expect(swaggerApiGeneratorMetadata.name).toBe("@cm/swagger-api-generator");
+    expect(swaggerApiGeneratorMetadata.name).toBe("@lsh/swagger-api-generator");
   });
 });
 
@@ -109,7 +109,7 @@ describe("generateApiCode", () => {
     expect(typesFile).toContain("export interface SearchContractRequestBody");
 
     const apiFile = getFileContent(result, "contract/api.ts");
-    expect(apiFile).toContain('import { request } from "@cm/shared-http";');
+    expect(apiFile).toContain('import { request } from "@lsh/shared-http";');
     expect(apiFile).toContain(
       "export function getContractDetail(path: GetContractDetailPathParams): Promise<GetContractDetailResponse>",
     );

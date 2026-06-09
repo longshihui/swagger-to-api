@@ -1,4 +1,4 @@
-# `@cm/swagger-to-api`
+# `@lsh/swagger-to-api`
 
 `swagger-to-api` 读取本地 OpenAPI JSON/YAML，生成 TypeScript API 代码和 VitePress 接口文档。
 
@@ -7,7 +7,7 @@
 安装：
 
 ```bash
-pnpm add -D @cm/swagger-to-api-cli
+pnpm add -D @lsh/swagger-to-api-cli
 ```
 
 需要生成接口文档站点时，同时安装：
@@ -19,7 +19,7 @@ pnpm add -D vitepress
 创建 `swagger-to-api.config.ts`：
 
 ```ts
-import type { SwaggerToApiConfig } from "@cm/swagger-to-api-cli";
+import type { SwaggerToApiConfig } from "@lsh/swagger-to-api-cli";
 
 export default {
   source: "./swagger.json",
@@ -28,7 +28,7 @@ export default {
     docsDir: "swagger-docs",
   },
   request: {
-    importFrom: "@cm/shared-http",
+    importFrom: "@lsh/shared-http",
     clientName: "request",
   },
   generate: {

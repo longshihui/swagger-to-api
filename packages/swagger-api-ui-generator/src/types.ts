@@ -1,4 +1,4 @@
-import type { ApiEndpointModel } from "@cm/swagger-api-generator";
+import type { ApiEndpointModel } from "@lsh/swagger-api-generator";
 
 export interface ApiDocsSearchItem {
   readonly title: string;

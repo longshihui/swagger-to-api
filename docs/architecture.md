@@ -23,7 +23,7 @@ packages/
 
 ## 包职责
 
-### `@cm/swagger-api-generator`
+### `@lsh/swagger-api-generator`
 
 负责统一模型定义、OpenAPI 3.x 到统一模型转换、TypeScript API 代码生成。
 
@@ -35,7 +35,7 @@ packages/
 - `createTypeLiteralFromSchema`
 - 统一模型类型和生成结果类型
 
-### `@cm/swagger-api-ui-generator`
+### `@lsh/swagger-api-ui-generator`
 
 负责把统一模型转换成 VitePress 文档站点文件。
 
@@ -45,7 +45,7 @@ packages/
 - 文档搜索索引类型
 - 文档生成结果类型
 
-### `@cm/swagger-to-api-cli`
+### `@lsh/swagger-to-api-cli`
 
 负责命令行入口和工程编排。
 
@@ -58,7 +58,7 @@ packages/
 - 写入文件。
 - 调用 VitePress dev/build。
 
-### `@cm/shared`
+### `@lsh/shared`
 
 当前只提供基础包元信息工具。
 

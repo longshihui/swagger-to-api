@@ -48,25 +48,25 @@ importers:
 
   packages/swagger-api-generator:
     dependencies:
-      "@cm/shared":
+      "@lsh/shared":
         specifier: workspace:*
         version: link:../shared
 
   packages/swagger-api-ui-generator:
     dependencies:
-      "@cm/shared":
+      "@lsh/shared":
         specifier: workspace:*
         version: link:../shared
 
   packages/swagger-to-api-cli:
     dependencies:
-      "@cm/shared":
+      "@lsh/shared":
         specifier: workspace:*
         version: link:../shared
-      "@cm/swagger-api-generator":
+      "@lsh/swagger-api-generator":
         specifier: workspace:*
         version: link:../swagger-api-generator
-      "@cm/swagger-api-ui-generator":
+      "@lsh/swagger-api-ui-generator":
         specifier: workspace:*
         version: link:../swagger-api-ui-generator
       jiti:

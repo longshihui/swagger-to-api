@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import { isAbsolute, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
-import { generateApiCode } from "@cm/swagger-api-generator";
-import type { ApiEndpointModel } from "@cm/swagger-api-generator";
-import { generateApiDocs } from "@cm/swagger-api-ui-generator";
+import { generateApiCode } from "@lsh/swagger-api-generator";
+import type { ApiEndpointModel } from "@lsh/swagger-api-generator";
+import { generateApiDocs } from "@lsh/swagger-api-ui-generator";
 import { loadSwaggerToApiConfig } from "./config";
 import { createNodeCliRunner } from "./runner";
 import { loadApiEndpoints } from "./source";

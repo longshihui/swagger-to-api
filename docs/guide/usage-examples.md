@@ -5,7 +5,7 @@
 `swagger-to-api.config.ts`：
 
 ```ts
-import type { SwaggerToApiConfig } from "@cm/swagger-to-api-cli";
+import type { SwaggerToApiConfig } from "@lsh/swagger-to-api-cli";
 
 export default {
   source: "./openapi.json",
@@ -45,7 +45,7 @@ const list = await searchContract(
 ## 只生成部分 tag
 
 ```ts
-import type { SwaggerToApiConfig } from "@cm/swagger-to-api-cli";
+import type { SwaggerToApiConfig } from "@lsh/swagger-to-api-cli";
 
 export default {
   source: "./openapi.json",

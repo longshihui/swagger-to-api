@@ -11,7 +11,7 @@ import type { SwaggerToApiCliRunner } from "../src/index";
 
 describe("swaggerToApiCliMetadata", () => {
   it("应该使用正确的包名", () => {
-    expect(swaggerToApiCliMetadata.name).toBe("@cm/swagger-to-api-cli");
+    expect(swaggerToApiCliMetadata.name).toBe("@lsh/swagger-to-api-cli");
   });
 });
 

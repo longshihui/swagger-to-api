@@ -1,5 +1,5 @@
 {
-  "name": "@cm/swagger-to-api",
+  "name": "@lsh/swagger-to-api",
   "version": "0.0.0",
   "private": true,
   "type": "module",

@@ -1,8 +1,8 @@
-import { definePackageMetadata } from "@cm/shared";
-import type { PackageMetadata } from "@cm/shared";
+import { definePackageMetadata } from "@lsh/shared";
+import type { PackageMetadata } from "@lsh/shared";
 
 export const swaggerToApiCliMetadata: PackageMetadata = definePackageMetadata({
-  name: "@cm/swagger-to-api-cli",
+  name: "@lsh/swagger-to-api-cli",
   description: "Swagger To API 命令行工具",
 });
 

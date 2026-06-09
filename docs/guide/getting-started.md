@@ -3,10 +3,10 @@
 ## 安装 CLI
 
 ```bash
-pnpm add -D @cm/swagger-to-api-cli
+pnpm add -D @lsh/swagger-to-api-cli
 ```
 
-`@cm/swagger-to-api-cli` 是整个工具的入口，安装后会提供 `swagger-to-api` 命令。
+`@lsh/swagger-to-api-cli` 是整个工具的入口，安装后会提供 `swagger-to-api` 命令。
 
 生成接口文档站点时，还需要安装 VitePress：
 
@@ -30,7 +30,7 @@ openapi.yml
 
 ```ts
 // swagger-to-api.config.ts
-import type { SwaggerToApiConfig } from "@cm/swagger-to-api-cli";
+import type { SwaggerToApiConfig } from "@lsh/swagger-to-api-cli";
 
 export default {
   source: "./swagger.json",
@@ -39,7 +39,7 @@ export default {
     docsDir: "swagger-docs",
   },
   request: {
-    importFrom: "@cm/shared-http",
+    importFrom: "@lsh/shared-http",
     clientName: "request",
   },
   generate: {

@@ -103,7 +103,7 @@ export type GetContractDetailResponse = ContractDetail;
 
 ```ts
 {
-  importFrom: "@cm/shared-http",
+  importFrom: "@lsh/shared-http",
   clientName: "request"
 }
 ```
@@ -111,7 +111,7 @@ export type GetContractDetailResponse = ContractDetail;
 生成示例：
 
 ```ts
-import { request } from "@cm/shared-http";
+import { request } from "@lsh/shared-http";
 import type {
   GetContractDetailPathParams,
   GetContractDetailResponse,

@@ -1,9 +1,9 @@
-import { definePackageMetadata } from "@cm/shared";
-import type { PackageMetadata } from "@cm/shared";
+import { definePackageMetadata } from "@lsh/shared";
+import type { PackageMetadata } from "@lsh/shared";
 
 export const swaggerApiUiGeneratorMetadata: PackageMetadata =
   definePackageMetadata({
-    name: "@cm/swagger-api-ui-generator",
+    name: "@lsh/swagger-api-ui-generator",
     description: "API 文档 UI 生成器",
   });
 
