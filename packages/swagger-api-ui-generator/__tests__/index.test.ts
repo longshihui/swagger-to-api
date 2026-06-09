@@ -91,6 +91,7 @@ describe("generateApiDocs", () => {
       endpoints: [createContractDetailEndpoint()],
       templates: {
         pageFile: (endpoint) => `${endpoint.title}:${endpoint.docPath}`,
+        configFile: (groups) => `groups:${groups.length}`,
         searchIndexFile: (items) => `items:${items.length}`,
       },
     });
@@ -99,6 +100,75 @@ describe("generateApiDocs", () => {
       "查询合同详情:/api/contract/get-contract-detail",
     );
     expect(getFileContent(result, "public/api-index.json")).toBe("items:1");
+    expect(getFileContent(result, ".vitepress/config.ts")).toBe("groups:1");
+  });
+
+  it("应该在缺失 tag 时使用默认分组并生成默认站点标题", () => {
+    const result = generateApiDocs({
+      endpoints: [createDefaultGroupEndpoint()],
+      defaultGroupName: "misc",
+    });
+
+    expect(result.files.map((file) => file.path)).toEqual([
+      "api/misc/list-audit-logs.md",
+      "public/api-index.json",
+      ".vitepress/config.ts",
+    ]);
+    expect(result.groups).toEqual([
+      expect.objectContaining({
+        groupName: "misc",
+        directoryName: "misc",
+      }),
+    ]);
+
+    const pageFile = getFileContent(result, "api/misc/list-audit-logs.md");
+    expect(pageFile).toContain("# listAuditLogs");
+    expect(pageFile).toContain("| 分组 | default |");
+    expect(pageFile).not.toContain("## Query 参数");
+
+    const vitePressConfig = getFileContent(result, ".vitepress/config.ts");
+    expect(vitePressConfig).toContain('title: "API 文档"');
+    expect(vitePressConfig).toContain('"link": "/api/misc/list-audit-logs"');
+  });
+
+  it("应该展开嵌套数组字段并展示组合类型", () => {
+    const result = generateApiDocs({
+      endpoints: [createNestedSchemaEndpoint()],
+    });
+
+    const pageFile = getFileContent(result, "api/report/get-report.md");
+    expect(pageFile).toContain(
+      "| records | `Array<object>` | 否 | 明细列表 |  |  |",
+    );
+    expect(pageFile).toContain("| records[] | `object` | 否 |  |  |  |");
+    expect(pageFile).toContain(
+      '| records[].recordId | `string` | 是 | 明细 ID | `"R001"` |  |',
+    );
+    expect(pageFile).toContain(
+      "| filter | `BaseFilter & ExtraFilter` | 否 | 筛选条件 |  |  |",
+    );
+    expect(pageFile).toContain(
+      "| keyword | `string \\| number` | 否 | 关键词\\|编号<br>支持模糊搜索 |  |  |",
+    );
+  });
+
+  it("应该优先使用响应 examples 生成响应示例", () => {
+    const result = generateApiDocs({
+      endpoints: [createResponseExampleEndpoint()],
+    });
+
+    const pageFile = getFileContent(result, "api/contract/create-contract.md");
+    expect(pageFile).toContain("## 响应字段（default）");
+    expect(pageFile).toContain('"contractCode": "HT202606090001"');
+    expect(pageFile).not.toContain('"contractCode": "string"');
+  });
+
+  it("应该在接口没有可用 response schema 时抛出错误", () => {
+    expect(() =>
+      generateApiDocs({
+        endpoints: [createNoSchemaEndpoint()],
+      }),
+    ).toThrow("缺少可用于生成文档的 response schema");
   });
 
   it("应该在文档路径重复时抛出错误", () => {
@@ -257,6 +327,163 @@ const createContractSearchEndpoint = (): ApiEndpointModel => ({
           },
         },
       },
+    },
+  ],
+});
+
+const createDefaultGroupEndpoint = (): ApiEndpointModel => ({
+  id: "audit-list",
+  operationId: "listAuditLogs",
+  functionName: "listAuditLogs",
+  method: "get",
+  path: "/audit/logs",
+  tags: [],
+  parameters: [],
+  responses: [
+    {
+      statusCode: "200",
+      schema: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+              description: "日志 ID",
+            },
+          },
+        },
+      },
+    },
+  ],
+});
+
+const createNestedSchemaEndpoint = (): ApiEndpointModel => ({
+  id: "report-detail",
+  operationId: "getReport",
+  functionName: "getReport",
+  summary: "查询报表",
+  method: "post",
+  path: "/report/query",
+  tags: ["report"],
+  parameters: [
+    {
+      name: "keyword",
+      in: "query",
+      required: false,
+      description: "关键词|编号\n支持模糊搜索",
+      schema: {
+        anyOf: [
+          {
+            type: "string",
+          },
+          {
+            type: "number",
+          },
+        ],
+      },
+    },
+  ],
+  requestBody: {
+    type: "object",
+    properties: {
+      filter: {
+        description: "筛选条件",
+        allOf: [
+          {
+            name: "BaseFilter",
+          },
+          {
+            name: "ExtraFilter",
+          },
+        ],
+      },
+    },
+  },
+  responses: [
+    {
+      statusCode: "200",
+      schema: {
+        type: "object",
+        properties: {
+          records: {
+            type: "array",
+            description: "明细列表",
+            items: {
+              type: "object",
+              required: ["recordId"],
+              properties: {
+                recordId: {
+                  type: "string",
+                  description: "明细 ID",
+                  example: "R001",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  ],
+});
+
+const createResponseExampleEndpoint = (): ApiEndpointModel => ({
+  id: "contract-create",
+  operationId: "createContract",
+  functionName: "createContract",
+  summary: "创建合同",
+  method: "post",
+  path: "/contract",
+  tags: ["contract"],
+  parameters: [],
+  requestBody: {
+    type: "object",
+    properties: {
+      contractName: {
+        type: "string",
+        description: "合同名称",
+      },
+    },
+  },
+  responses: [
+    {
+      statusCode: "204",
+      description: "无内容",
+    },
+    {
+      statusCode: "default",
+      description: "创建结果",
+      schema: {
+        type: "object",
+        properties: {
+          contractCode: {
+            type: "string",
+            description: "合同编号",
+          },
+        },
+      },
+      examples: {
+        success: {
+          contractCode: "HT202606090001",
+        },
+      },
+    },
+  ],
+});
+
+const createNoSchemaEndpoint = (): ApiEndpointModel => ({
+  id: "health-check",
+  operationId: "healthCheck",
+  functionName: "healthCheck",
+  summary: "健康检查",
+  method: "get",
+  path: "/health",
+  tags: ["system"],
+  parameters: [],
+  responses: [
+    {
+      statusCode: "204",
+      description: "服务正常",
     },
   ],
 });
