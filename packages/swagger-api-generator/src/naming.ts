@@ -56,16 +56,6 @@ export const toCamelCase = (value: string): string => {
   return `${pascalName.charAt(0).toLowerCase()}${pascalName.slice(1)}`;
 };
 
-export const toKebabCase = (value: string): string => {
-  const words = splitWords(value);
-
-  if (words.length === 0) {
-    return "default";
-  }
-
-  return words.join("-");
-};
-
 export const isIdentifierName = (value: string): boolean =>
   IDENTIFIER_PATTERN.test(value) && !RESERVED_WORDS.has(value);
 

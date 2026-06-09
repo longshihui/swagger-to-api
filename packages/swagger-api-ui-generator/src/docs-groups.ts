@@ -1,5 +1,5 @@
 import type { ApiEndpointModel } from "@lsh/swagger-api-generator";
-import { toKebabCase } from "./naming";
+import { toKebabCase } from "@lsh/shared";
 import type { ApiDocsGeneratedGroup, GenerateApiDocsOptions } from "./types";
 
 export const groupDocsEndpoints = (

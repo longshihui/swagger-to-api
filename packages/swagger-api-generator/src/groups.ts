@@ -1,4 +1,4 @@
-import { toKebabCase } from "./naming";
+import { toKebabCase } from "@lsh/shared";
 import type {
   ApiEndpointModel,
   ApiGeneratedGroup,
