@@ -1,0 +1,164 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "合同接口",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/contract/{id}": {
+      "parameters": [
+        {
+          "name": "tenant-id",
+          "in": "header",
+          "required": false,
+          "description": "租户 ID",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "operationId": "getContractDetail",
+        "summary": "查询合同详情",
+        "tags": ["contract"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "合同 ID",
+            "example": "10001",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "合同详情",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContractDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务异常",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/contract/search": {
+      "post": {
+        "operationId": "searchContract",
+        "summary": "搜索合同",
+        "tags": ["contract"],
+        "parameters": [
+          {
+            "name": "contractName",
+            "in": "query",
+            "required": false,
+            "description": "合同名称",
+            "example": "采购合同",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageNum",
+            "in": "query",
+            "required": false,
+            "description": "页码",
+            "example": 1,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["ownerId"],
+                "properties": {
+                  "ownerId": {
+                    "type": "string",
+                    "description": "负责人 ID"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "搜索结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total": {
+                      "type": "integer",
+                      "description": "总数"
+                    },
+                    "list": {
+                      "type": "array",
+                      "description": "合同列表",
+                      "items": {
+                        "$ref": "#/components/schemas/ContractDetail"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ContractDetail": {
+        "type": "object",
+        "required": ["id", "contractName"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "合同 ID"
+          },
+          "contractName": {
+            "type": "string",
+            "description": "合同名称"
+          },
+          "status": {
+            "type": "string",
+            "description": "合同状态",
+            "enum": ["draft", "signed"]
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "错误信息"
+          }
+        }
+      }
+    }
+  }
+}

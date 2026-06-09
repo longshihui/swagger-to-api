@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { definePackageMetadata } from "./index";
+import { definePackageMetadata } from "../src/index";
 
 describe("definePackageMetadata", () => {
-  it("returns package metadata without mutation", () => {
+  it("应该原样返回包元信息", () => {
     const metadata = definePackageMetadata({
       name: "@cm/shared",
       description: "公共代码",
