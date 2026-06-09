@@ -1,58 +1,51 @@
 # API 代码生成器设计
 
-## 目标
+API 代码生成器位于 `packages/swagger-api-generator`，负责两件事：
 
-API 代码生成器负责把内部统一模型转换为业务项目可直接引用的 TypeScript 代码。
-
-核心目标：
-
-- 生成完整接口请求函数。
-- 生成完整入参和出参类型。
-- 给字段补齐说明、示例、枚举和必填信息。
-- 支持自定义模板，适配不同请求客户端。
-- 默认适配当前仓库的 `@cm/shared-http`。
+1. 把已解析的 OpenAPI 3.x 文档对象转换为统一接口模型。
+2. 把统一接口模型生成 TypeScript API 文件。
 
 ## 输入模型
 
-API 代码生成器只消费内部统一模型，不直接读取 Swagger / OpenAPI 原始文档。
-
-核心输入：
+生成器核心输入是 `ApiEndpointModel[]`。CLI 会通过 `convertOpenApiDocumentToEndpoints` 从 OpenAPI 文档生成该模型。
 
 ```ts
 export interface ApiEndpointModel {
-  id: string;
-  operationId: string;
-  functionName: string;
-  summary?: string;
-  description?: string;
-  method: HttpMethod;
-  path: string;
-  tags: string[];
-  parameters: ApiParameterModel[];
-  requestBody?: ApiSchemaModel;
-  responses: ApiResponseModel[];
-}
-
-export interface ApiParameterModel {
-  name: string;
-  in: "path" | "query" | "header" | "cookie";
-  required: boolean;
-  description?: string;
-  example?: unknown;
-  schema: ApiSchemaModel;
-}
-
-export interface ApiResponseModel {
-  statusCode: string;
-  description?: string;
-  schema?: ApiSchemaModel;
-  examples?: Record<string, unknown>;
+  readonly id: string;
+  readonly operationId: string;
+  readonly functionName: string;
+  readonly summary?: string;
+  readonly description?: string;
+  readonly method: HttpMethod;
+  readonly path: string;
+  readonly tags: readonly string[];
+  readonly parameters: readonly ApiParameterModel[];
+  readonly requestBody?: ApiSchemaModel;
+  readonly requestBodyRequired?: boolean;
+  readonly responses: readonly ApiResponseModel[];
 }
 ```
 
+## OpenAPI 转换
+
+`convertOpenApiDocumentToEndpoints(document)` 支持：
+
+- OpenAPI 3.x `paths`。
+- path 级和 operation 级 `parameters` 合并。
+- `requestBody.content` 中的 JSON schema。
+- `responses.content` 中的 JSON schema。
+- `components.schemas` 本地 `$ref`。
+- schema 的 `properties`、`required`、`items`、`additionalProperties`、`enum`、`example`、`nullable`、`allOf`、`anyOf`、`oneOf`。
+
+当前不支持：
+
+- 远程 URL 输入。
+- 外部 `$ref`。
+- Swagger 2.0。
+
 ## 输出结构
 
-推荐按 `tag` 分组：
+默认按第一个 tag 分组。缺失 tag 时使用 `default`。
 
 ```txt
 src/api/generated/
@@ -65,91 +58,57 @@ src/api/generated/
   index.ts
 ```
 
-职责划分：
+## 类型生成
 
-- `types.ts`：输出 path、query、header、body、response 和复用 schema 类型。
-- `api.ts`：输出请求函数、请求地址、请求方法和请求客户端适配代码。
-- `index.ts`：输出统一导出，方便业务模块引用。
+### 参数类型
 
-## 类型生成规则
-
-### path 参数
-
-路径变量统一生成独立类型：
+path、query、header 参数分别生成独立类型：
 
 ```ts
 export interface GetContractDetailPathParams {
   /**
    * 合同 ID
-   *
    * @example "10001"
    */
   id: string;
 }
 ```
 
-### query 参数
-
-query 参数统一生成对象类型：
-
-```ts
-export interface SearchContractQueryParams {
-  /**
-   * 合同名称
-   *
-   * @example "采购合同"
-   */
-  contractName?: string;
-
-  /**
-   * 页码
-   *
-   * @example 1
-   */
-  pageNum?: number;
-}
-```
-
 ### request body
 
-body 优先复用 schema 名称；匿名 body 使用接口名生成：
+命名 schema 优先复用 schema 名称；匿名 schema 使用 `{FunctionName}RequestBody`。
 
-```ts
-export interface CreateContractRequestBody {
-  /**
-   * 合同编号
-   *
-   * @example "HT202606050001"
-   */
-  contractCode: string;
-}
-```
+### response
 
-### response body
-
-优先选取业务返回状态码作为 response 类型。
-
-MVP 默认优先级：
+响应类型选择规则：
 
 1. `200`
 2. `201`
 3. `default`
 4. 第一个包含 schema 的 response
 
-该规则后续应支持配置覆盖。
+命名 schema 会生成复用类型和响应别名：
 
 ```ts
-export interface GetContractDetailResponse {
-  /**
-   * 合同详情
-   */
-  data?: ContractDetail;
+export interface ContractDetail {
+  id: string;
+}
+
+export type GetContractDetailResponse = ContractDetail;
+```
+
+## 请求函数生成
+
+默认请求客户端配置：
+
+```ts
+{
+  importFrom: "@cm/shared-http",
+  clientName: "request"
 }
 ```
 
-## 请求函数生成规则
-
-默认生成方式：
+生成示例：
 
 ```ts
 import { request } from "@cm/shared-http";
@@ -170,101 +129,33 @@ export function getContractDetail(
 
 参数映射：
 
-- path 参数参与 URL 模板替换。
+- path 参数替换 URL 模板。
 - query 参数写入 `params`。
 - request body 写入 `data`。
 - header 参数写入 `headers`。
 
-多参数接口示例：
-
-```ts
-export function searchContract(
-  query?: SearchContractQueryParams,
-  body?: SearchContractRequestBody,
-): Promise<SearchContractResponse> {
-  return request<SearchContractResponse>({
-    url: "/contract/search",
-    method: "post",
-    params: query,
-    data: body,
-  });
-}
-```
-
-## 命名策略
-
-函数名优先级：
-
-1. 使用 `operationId`。
-2. 使用请求方法和 path 生成，例如 `getContractById`。
-3. 如果允许使用 `summary`，需要明确中文转英文或拼音策略。
-
-类型名规则：
-
-- `{FunctionName}PathParams`
-- `{FunctionName}QueryParams`
-- `{FunctionName}HeaderParams`
-- `{FunctionName}RequestBody`
-- `{FunctionName}Response`
-
-同名处理：
-
-- 同 tag 内函数名重复时直接报错。
-- 类型名重复但结构一致时可以复用。
-- 类型名重复但结构不一致时直接报错。
-
-## 模板设计
-
-默认模板覆盖当前仓库常见请求写法，自定义模板用于适配不同项目。
-
-模板上下文：
-
-```ts
-export interface ApiTemplateContext {
-  groupName: string;
-  endpoints: ApiEndpointModel[];
-  request: {
-    importFrom: string;
-    clientName: string;
-    unwrapData?: boolean;
-  };
-  imports: ApiTemplateImportModel[];
-}
-```
-
-可配置模板：
-
-- `apiFile`：请求函数文件模板。
-- `typeFile`：类型文件模板。
-- `indexFile`：导出入口模板。
-
-模板必须保留：
-
-- 显式 TypeScript 类型。
-- `import type` 类型导入。
-- 字段 JSDoc 注释。
-- 生成文件头部说明。
-
 ## 校验规则
 
-生成前校验：
+生成前会校验：
 
-- 输出目录是否可写。
-- 是否存在命名冲突。
-- path 参数是否都能在 URL 中找到。
-- 必填 request body 是否缺失 schema。
-- response 是否存在可用 schema。
+- 同一分组内函数名不能重复。
+- path 参数必须出现在 URL 中。
+- response 必须存在可用 schema。
+- 同名类型结构不一致时抛出错误。
 
-生成后校验：
+## 模板扩展
 
-- 生成文件必须可被 TypeScript 解析。
-- 格式化后写入。
-- 必要时运行目标项目 typecheck。
+底层 `generateApiCode` 支持函数式模板：
 
-## 待确认问题
+```ts
+generateApiCode({
+  endpoints,
+  templates: {
+    apiFile: (context) => "...",
+    typeFile: (context) => "...",
+    indexFile: (groups) => "...",
+  },
+});
+```
 
-- 请求函数返回完整 response 还是只返回业务 `data`。
-- `@cm/shared-http` 最终导出的请求函数名称是否固定为 `request`。
-- 缺失 `operationId` 时是否允许自动根据 path 命名。
-- 对匿名 schema 是否需要强制提升为复用类型。
-- 多个 response 状态码时是否允许生成联合类型。
+CLI 配置中已保留模板路径字段，但尚未实现外部模板文件加载。

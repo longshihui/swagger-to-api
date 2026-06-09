@@ -14,7 +14,10 @@
     "validate:commit": "pnpm run typecheck && pnpm run lint:eslint:fix",
     "commit": "GIT_CONFIG_GLOBAL=${GIT_CONFIG_GLOBAL:-$HOME/.gitconfig} HOME=.cache czg",
     "format:check": "prettier . --check",
-    "format": "prettier . --write"
+    "format": "prettier . --write",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
@@ -27,6 +30,7 @@
     "prettier": "^3.5.3",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.34.0",
+    "vitepress": "^1.6.4",
     "vitest": "^3.2.2"
   }
 }
