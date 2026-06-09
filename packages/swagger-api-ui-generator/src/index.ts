@@ -6,3 +6,15 @@ export const swaggerApiUiGeneratorMetadata: PackageMetadata =
     name: "@cm/swagger-api-ui-generator",
     description: "API 文档 UI 生成器",
   });
+
+export { generateApiDocs } from "./generator";
+export type {
+  ApiDocsGeneratedEndpoint,
+  ApiDocsGeneratedGroup,
+  ApiDocsGeneratorTemplates,
+  ApiDocsSearchItem,
+  GenerateApiDocsOptions,
+  GenerateApiDocsResult,
+  GeneratedApiDocsFile,
+} from "./types";
+export { ApiDocsGeneratorError } from "./types";
