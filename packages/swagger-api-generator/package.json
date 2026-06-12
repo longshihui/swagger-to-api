@@ -1,8 +1,13 @@
 {
   "name": "@lsh/swagger-api-generator",
   "version": "0.0.0",
-  "private": true,
   "type": "module",
+  "files": [
+    "src"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     ".": {
       "types": "./src/index.ts",
