@@ -3,8 +3,7 @@ name: Publish Packages
 on:
   push:
     tags:
-      - v*
-  workflow_dispatch:
+      - "v*.*.*"
 
 permissions:
   contents: read
@@ -30,12 +29,19 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - name: Check package versions
-        if: startsWith(github.ref, 'refs/tags/v')
         run: |
           node --input-type=module <<'NODE'
           import { readFileSync } from "node:fs";
 
-          const releaseVersion = process.env.GITHUB_REF_NAME.replace(/^v/, "");
+          const tagName = process.env.GITHUB_REF_NAME ?? "";
+          const versionMatch = /^v(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?)$/.exec(tagName);
+
+          if (versionMatch === null) {
+            console.error(`Publish requires a version tag like v1.2.3, received ${tagName}.`);
+            process.exit(1);
+          }
+
+          const releaseVersion = versionMatch[1];
           const packagePaths = [
             "packages/shared/package.json",
             "packages/swagger-api-generator/package.json",
