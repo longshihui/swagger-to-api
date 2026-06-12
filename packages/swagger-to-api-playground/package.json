@@ -1,0 +1,15 @@
+{
+  "name": "@lsh/swagger-to-api-playground",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "validate": "swagger-to-api validate -c swagger-to-api.config.ts",
+    "generate": "swagger-to-api generate -c swagger-to-api.config.ts",
+    "docs:dev": "swagger-to-api docs:dev -c swagger-to-api.config.ts",
+    "docs:build": "swagger-to-api docs:build -c swagger-to-api.config.ts"
+  },
+  "devDependencies": {
+    "@lsh/swagger-to-api-cli": "workspace:*"
+  }
+}

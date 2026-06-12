@@ -4,5 +4,11 @@
     "noEmit": true
   },
   "include": ["packages/**/*.ts", "vitest.config.ts"],
-  "exclude": ["node_modules", "dist", "coverage"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "coverage",
+    "packages/swagger-to-api-playground/generated-api",
+    "packages/swagger-to-api-playground/swagger-docs"
+  ]
 }

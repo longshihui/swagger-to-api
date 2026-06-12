@@ -12,6 +12,8 @@ export default tseslint.config(
       "docs/.vitepress/.temp/**",
       "docs/.vitepress/cache/**",
       "docs/.vitepress/dist/**",
+      "packages/swagger-to-api-playground/generated-api/**",
+      "packages/swagger-to-api-playground/swagger-docs/**",
       "**/*.tsbuildinfo",
     ],
   },

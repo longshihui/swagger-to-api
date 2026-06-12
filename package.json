@@ -17,7 +17,11 @@
     "format": "prettier . --write",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "playground:validate": "pnpm --filter @lsh/swagger-to-api-playground run validate",
+    "playground:generate": "pnpm --filter @lsh/swagger-to-api-playground run generate",
+    "playground:docs:dev": "pnpm --filter @lsh/swagger-to-api-playground run docs:dev",
+    "playground:docs:build": "pnpm --filter @lsh/swagger-to-api-playground run docs:build"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",

@@ -203,3 +203,7 @@ dist
 docs/.vitepress/.temp/
 docs/.vitepress/cache/
 docs/.vitepress/dist/
+
+# Playground generated files
+packages/swagger-to-api-playground/generated-api/
+packages/swagger-to-api-playground/swagger-docs/

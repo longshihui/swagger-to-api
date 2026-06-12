@@ -15,6 +15,7 @@
     }
   },
   "dependencies": {
-    "@lsh/shared": "workspace:*"
+    "@lsh/shared": "workspace:*",
+    "@lsh/swagger-api-generator": "workspace:*"
   }
 }
