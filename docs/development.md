@@ -54,12 +54,21 @@ pnpm run format:check
 
 发包前需要在 GitHub 仓库的 `Settings -> Secrets and variables -> Actions` 中配置 `NPM_TOKEN`，该 token 需要具备发布 `@lsh` scope 包的权限。
 
-触发方式：
+本地创建版本发布：
 
-- 推送 `v*` 格式的 tag，例如 `v0.1.0`
-- 在 GitHub Actions 页面手动运行 `Publish Packages`
+```bash
+pnpm release 0.1.0
+```
 
-使用 tag 触发发布前，需要先把 `packages/*/package.json` 中的版本号更新为与 tag 一致的版本。workflow 会校验 tag 版本与包版本，版本不一致时不会继续发布。
+该命令基于 `release-it` 执行，会先运行 `pnpm run validate`，通过后统一更新根项目和待发布包的版本号、生成 `CHANGELOG.md`、创建 release commit，并打上 `v0.1.0` 格式的 git tag。
+
+推送 release commit 和 tag 后会触发发布：
+
+```bash
+git push origin main --follow-tags
+```
+
+workflow 只会在推送 `v*.*.*` 格式的 tag 时触发。workflow 会校验 tag 版本与包版本，版本不一致时不会继续发布。
 
 发布前 workflow 会先执行：
 

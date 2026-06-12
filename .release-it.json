@@ -1,0 +1,38 @@
+{
+  "$schema": "https://unpkg.com/release-it/schema/release-it.json",
+  "hooks": {
+    "before:init": "pnpm run validate"
+  },
+  "git": {
+    "addUntrackedFiles": true,
+    "commit": true,
+    "commitMessage": "chore(root): release v${version}",
+    "push": false,
+    "requireCleanWorkingDir": true,
+    "tag": true,
+    "tagName": "v${version}"
+  },
+  "github": {
+    "release": false
+  },
+  "npm": false,
+  "plugins": {
+    "@release-it/bumper": {
+      "in": "package.json",
+      "out": [
+        "package.json",
+        "packages/shared/package.json",
+        "packages/swagger-api-generator/package.json",
+        "packages/swagger-api-ui-generator/package.json",
+        "packages/swagger-to-api-cli/package.json"
+      ]
+    },
+    "@release-it/conventional-changelog": {
+      "ignoreRecommendedBump": true,
+      "infile": "CHANGELOG.md",
+      "preset": {
+        "name": "angular"
+      }
+    }
+  }
+}
